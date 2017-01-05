@@ -26,6 +26,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "types": "ts/index.d.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/free-jqgrid/jqGrid.git"
@@ -52,6 +53,9 @@
     "url": "https://github.com/free-jqgrid/jqGrid/issues"
   },
   "homepage": "https://github.com/free-jqgrid/jqGrid",
+  "dependencies": {
+    "@types/jquery" :"^2.0.39"
+  },
   "devDependencies": {
     "google-closure-compiler": "^20160208.1.0",
     "grunt": "^0.4.5",
