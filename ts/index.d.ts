@@ -8,6 +8,15 @@
 
 // http://www.trirand.com/jqgridwiki/doku.php?id=wiki:colmodel_options
 
+interface JQueryStatic{
+    jgrid:  JQueryJGrid;
+}
+
+interface JQueryJGrid{
+    no_legacy_api : boolean;
+    useJSON : true;
+}
+
 interface JQueryJqGridColumn {
 
     /**
@@ -48,7 +57,19 @@ interface JQueryJqGridColumn {
     /**
      * Defines if the field is editable. This option is used in cell, inline and form modules.
      */
-    editable?: boolean;
+    editable?: boolean | any;
+
+    /**
+     * Edit Options
+     */
+    editoptions?: string | Object;
+
+    /**
+     * Edit Type
+     */
+    edittype?: string;
+
+    
 
     /**
      * The predefined types (string) or custom function name that controls the format of this field
@@ -58,6 +79,11 @@ interface JQueryJqGridColumn {
      * @returns {} the formatted value
      */
     formatter?: "integer" | "number" | "currency" | "date" | "email" | "link" | "showlink" | "checkbox" | "select" | "actions" | ((cellvalue: any, options: { rowId: any, colModel: any }, rowObject: any) => any);
+
+    /**
+     * Defines the Format options
+     */
+    formatoptions?: string | Object;
 
     /**
      * Defines if this column is hidden at initialization.
@@ -95,9 +121,26 @@ interface JQueryJqGridColumn {
     search?: boolean;
 
     /**
+     * Search options 
+     */
+    searchoptions? : string | Object;
+
+    /**
      * Defines is this can be sorted
      */
     sortable?: boolean;
+
+     /**
+     * Sort Type
+     */
+    sorttype?: string;
+
+    stype?: string;
+
+    /**
+     * Template Name
+     */
+    template?: string;
 
     /**
      * Set the initial width of the column, in pixels. This value currently can not be set as percentage
@@ -146,6 +189,16 @@ interface JQueryJqGridOptions {
      * When set to true encodes (html encode) the incoming (from server) and posted data (from editing modules).
      */
     autoencode?: boolean;
+
+    /**
+     * Alt Class of the Grid
+     */
+    altclass?: string;
+    
+    /**
+     * Alt Rows of the Grid
+     */
+    altRows?: boolean;
 
     /**
      * When set to true, the grid width is recalculated automatically to the width of the parent element.
@@ -207,6 +260,12 @@ interface JQueryJqGridOptions {
      */
     height?: number | string | "auto";
 
+
+    /**
+     * The iconSet of the grid.
+     */
+    iconSet?: string;
+
     /**
      * If this flag is set to true, the grid loads the data from the server only once (using the appropriate datatype).
      * After the first request, the datatype parameter is automatically changed to local and all further manipulations are done on the client side.
@@ -238,6 +297,10 @@ interface JQueryJqGridOptions {
      */
     multiselect?: boolean;
 
+    navOptions?:{
+        del?: boolean;
+    }
+
     /**
      * Defines that we want to use a pager bar to navigate through the records.
      * This must be a valid HTML element; in our example we gave the div the id of "pager", but any name is acceptable.
@@ -246,7 +309,7 @@ interface JQueryJqGridOptions {
      * The valid settings can be (in the context of our example) pager, #pager, jQuery('#pager').
      * I recommend to use the second one - #pager
      */
-    pager?: string;
+    pager?: string | boolean;
 
     /**
      * An array to construct a select box element in the pager in which we can change the number of the visible rows.
@@ -254,7 +317,7 @@ interface JQueryJqGridOptions {
      * If the array is empty, this element does not appear in the pager. Typically you can set this like [10,20,30].
      * If the rowNum parameter is set to 30 then the selected value in the select box is 30
      */
-    rowList?: number[];
+    rowList?: (string | number)[];
 
     /**
      * Sets how many records we want to view in the grid. This parameter is passed to the url for use by the server routine retrieving the data.
@@ -262,9 +325,22 @@ interface JQueryJqGridOptions {
      */
     rowNum?: number;
 
+    /*
+    * Searching Options of the grid
+    */
+    searching?: {
+        closeAfterSearch?: boolean,
+        closeAfterReset?: boolean,
+        closeOnEscape?: boolean,
+        searchOnEnter?: boolean,
+        multipleSearch?: boolean,
+        multipleGroup?: boolean,
+        showQuery?: boolean
+    }
+
     /**
      * This option, if set, defines how the the width of the columns of the grid should be re-calculated, taking into consideration the width of the grid.
-     * If this value is true, and the width of the columns is also set, then every column is scaled in proportion to its width.
+     * If this value is boolean, and the width of the columns is also set, then every column is scaled in proportion to its width.
      * For example, if we define two columns with widths 80 and 120 pixels, but want the grid to have a width of 300 pixels,
      * then the columns will stretch to fit the entire grid, and the extra width assigned to them will depend on the width of the columns themselves and the extra width available.
      * The re-calculation is done as follows: the first column gets the width (300(new width)/200(sum of all widths))*80(first column width) = 120 pixels,
@@ -298,7 +374,7 @@ interface JQueryJqGridOptions {
     url?: string | "clientArray";
 
     /**
-     * If true, jqGrid displays the beginning and ending record number in the grid, out of the total number of records in the query.
+     * If boolean, jqGrid displays the beginning and ending record number in the grid, out of the total number of records in the query.
      * This information is shown in the pager bar (bottom right by default)in this format: "View X to Y out of Z".
      * If this value is true, there are other parameters that can be adjusted, including emptyrecords and recordtext.
      */
@@ -415,4 +491,26 @@ interface JQuery {
      * @returns {} 
      */
     setGridParam(obj: any): void;
+}
+
+
+/**
+ * JQGrid Expando Elements
+ */
+interface JQueryJqGridElement extends HTMLElement {
+
+    /**
+     * Row Element
+     */
+    rows: any[];
+
+    /**
+     * Grid Element
+     */
+    grid: JQueryJqGridStatic;
+
+    /**
+     * P Element of JQGrid
+     */
+    p: any;
 }

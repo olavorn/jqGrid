@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+        "outDir": "bin",
+        "moduleResolution": "node"
+    },
+    "include": [
+        "*.ts",
+        "tests/*.ts",
+        "../index.d.ts"
+    ]
+
+}
